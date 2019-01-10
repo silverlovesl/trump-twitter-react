@@ -6,6 +6,7 @@ import { PagingData } from '@/models/paging-data';
 type errorHandlerFunc = (error: any) => any;
 
 const baseURL = process.env.REACT_APP_API_ENDPOINT;
+const isUseMock = Boolean(process.env.REACT_APP_IS_USE_MOCK);
 let apiErrorHandler: errorHandlerFunc;
 
 export const API = axios.create({
@@ -41,6 +42,8 @@ API.interceptors.response.use(undefined, err => {
 });
 
 export class ApiService {
+  public readonly isUseMock = isUseMock;
+
   public get<T extends Serializable<T>>(type: { new (): T }, path: string, params: any): Promise<T> {
     return API.get<T>(path, { params }).then(value => {
       return new type().deserialize(value.data);
