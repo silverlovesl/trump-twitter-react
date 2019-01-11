@@ -1,5 +1,5 @@
 import { ApiService } from './api.service';
-import { StatisticType1, StatisticType2, StatisticType3 } from '@/models/statistic';
+import { StatisticType1, StatisticType2, StatisticType3, Emotion } from '@/models/statistic';
 import { WordCloud } from '@/models/word-cloud';
 import { TWEnum } from '@/models/tw-enum';
 class StatisticService extends ApiService {
@@ -41,6 +41,13 @@ class StatisticService extends ApiService {
     }
     let param = category ? { category: category } : {};
     return this.getList(WordCloud, `/word-cloud`, param);
+  }
+
+  getEmotion(): Promise<Emotion> {
+    const mock = require('@/assets/mock-data/emotion.json');
+    return Promise.resolve(mock).then(d => {
+      return new Emotion().deserialize(d);
+    });
   }
 }
 

@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
-import HomeStore from './home';
+import HomeStore from './tw-home';
+import EmotionStore from './tw-emotion';
 
 export interface IGlobalStore {
   collapsed: boolean;
@@ -7,7 +8,7 @@ export interface IGlobalStore {
 }
 
 export default class GlobalStore implements IGlobalStore {
-  @observable collapsed = false;
+  @observable collapsed = true;
 
   @action.bound public toggleCollapsed() {
     this.collapsed = !this.collapsed;
@@ -17,4 +18,5 @@ export default class GlobalStore implements IGlobalStore {
 export const stores = {
   globalStore: new GlobalStore(),
   homeStore: new HomeStore(),
+  emotionStore: new EmotionStore(),
 };

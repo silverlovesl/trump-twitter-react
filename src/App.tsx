@@ -1,22 +1,28 @@
 import * as React from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import { hot } from 'react-hot-loader';
-import { Route } from 'react-router-dom';
 import './App.scss';
 import logo_small from '@/assets/image/logo_small.png';
-import Home from '@/views/home/Home';
 import { observer, inject } from 'mobx-react';
 import IGlobalStore from './stores';
+import AppRouting from './AppRouting';
+import { Router } from 'react-router';
+import { createBrowserHistory } from 'history';
 
 const { Sider, Header, Content } = Layout;
+const history = createBrowserHistory();
 
-type AppProps = {
+interface AppProps {
   globalStore?: IGlobalStore;
-};
+}
 
 @inject('globalStore')
 @observer
-class App extends React.Component<AppProps, {}> {
+class App extends React.Component<AppProps> {
+  public handMenuClick(param: any) {
+    history.replace(param.key);
+  }
+
   public render() {
     const { globalStore } = this.props;
     return (
@@ -26,14 +32,14 @@ class App extends React.Component<AppProps, {}> {
             <div className="logo">
               <img src={logo_small} />
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-              <Menu.Item key="1">
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} onClick={this.handMenuClick}>
+              <Menu.Item key="home">
                 <Icon type="bar-chart" />
                 <span>Twitter every day</span>
               </Menu.Item>
-              <Menu.Item key="2">
-                <Icon type="cloud" />
-                <span>Your are fired</span>
+              <Menu.Item key="emotion">
+                <Icon type="frown" />
+                <span>Emotion</span>
               </Menu.Item>
               <Menu.Item key="3">
                 <Icon type="pie-chart" />
@@ -50,7 +56,9 @@ class App extends React.Component<AppProps, {}> {
               />
             </Header>
             <Content style={{ margin: '16px', padding: '4px', minHeight: '280px' }}>
-              <Route path={'/'} component={Home} />
+              <Router history={history}>
+                <AppRouting />
+              </Router>
             </Content>
           </Layout>
         </Layout>

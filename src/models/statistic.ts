@@ -46,3 +46,15 @@ export class StatisticType3 implements Serializable<StatisticType3> {
     return `${this.year}年`;
   }
 }
+
+export class Emotion implements Serializable<Emotion> {
+  negative: number;
+  positive: number;
+  neutral: number;
+  deserialize(input: any) {
+    this.negative = input.negative;
+    this.positive = input.positive;
+    this.neutral = input.neutral;
+    return this;
+  }
+}

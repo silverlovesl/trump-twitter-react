@@ -1,13 +1,14 @@
 import React from 'react';
 import { Row, Col, Card, Icon } from 'antd';
 import CountUp from 'react-countup';
-import { IHomeStore } from '@/stores/home';
+import { IHomeStore } from '@/stores/tw-home';
 import trumpAvator from '@/assets/image/trump-avator.png';
 import { observer, inject } from 'mobx-react';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import echarts from 'echarts/lib/echarts';
+import { cardBody, cardTagBody } from '@/minix/UIMixin';
 
-import './Home.scss';
+import './TWHome.scss';
 import twitterIcon from '@/assets/image/twitter.svg';
 import wordCloudFrame from '@/assets/image/word-cloud-frame.png';
 import { TWEnum } from '@/models/tw-enum';
@@ -28,12 +29,9 @@ interface States {
   annualTwitterAvg?: number;
 }
 
-const cardTagBody = { height: '360px', padding: '8px' };
-const cardBody = { height: '360px', padding: '12px' };
-
 @inject('homeStore')
 @observer
-class Home extends React.Component<Props, States> {
+class TWHome extends React.Component<Props, States> {
   constructor(props: Props, state: States) {
     super(props, state);
     this.state = {
@@ -53,7 +51,7 @@ class Home extends React.Component<Props, States> {
       fetchData();
       fetchWordCloud(TWEnum.WordCategory.Noun);
       setTimeout(() => {
-        this.initannualTwitterStatChart();
+        this.initAnnualTwitterStatChart();
         this.initMonthTwitterCountChart();
         this.initHourTwitterCountChart();
         this.initWordCloud();
@@ -64,7 +62,7 @@ class Home extends React.Component<Props, States> {
     });
   }
 
-  private initannualTwitterStatChart() {
+  private initAnnualTwitterStatChart() {
     const { annualTwitterStat } = this.props.homeStore!;
     let option = {
       animation: true,
@@ -345,4 +343,4 @@ class Home extends React.Component<Props, States> {
   }
 }
 
-export default Home;
+export default TWHome;
